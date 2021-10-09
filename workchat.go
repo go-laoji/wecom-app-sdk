@@ -25,7 +25,13 @@ type IWorkChat interface {
 	UserSimpleList(int32, int) UserSimpleListResponse
 	UserList(int32, int) UserListResponse
 	UserId2OpenId(string) UserId2OpenIdResponse
-	
+
+	//通讯录管理－部门管理 ↓
+
+	DepartmentCreate(Department) DepartmentCreateResponse
+	DepartmentUpdate(Department) internal.Error
+	DepartmentDelete(int32) (e internal.Error)
+	DepartmentList(int32) DepartmentListResponse
 }
 
 type WorkChatConfig struct {
