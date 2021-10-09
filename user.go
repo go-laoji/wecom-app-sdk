@@ -120,7 +120,8 @@ func (app workChat) UserUpdate(user User) (e internal.Error) {
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/update?%s", queryParams.Encode()), user)
 	if err != nil {
-		return internal.Error{ErrCode: 500, ErrorMsg: err.Error()}
+		e.ErrCode = 500
+		e.ErrorMsg = err.Error()
 	} else {
 		json.Unmarshal(body, &e)
 	}
@@ -176,10 +177,14 @@ func (app workChat) UserSimpleList(departId int32, fetchChild int) (resp UserSim
 	apiUrl := fmt.Sprintf("/cgi-bin/user/simplelist?%s", queryParams.Encode())
 	body, err := internal.HttpGet(apiUrl)
 	if err != nil {
-		return UserSimpleListResponse{internal.Error{ErrorMsg: err.Error(), ErrCode: 500}, nil}
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+		return
 	}
 	if err = json.Unmarshal(body, &resp); err != nil {
-		return UserSimpleListResponse{internal.Error{ErrorMsg: err.Error(), ErrCode: 500}, nil}
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+		return
 	}
 	return
 }
