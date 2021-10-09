@@ -5,7 +5,7 @@ import (
 )
 
 type Error struct {
-	ErrCode  int `json:"errcode,omitempty"` // 错误代码
+	ErrCode  int    `json:"errcode,omitempty"` // 错误代码
 	ErrorMsg string `json:"errmsg,omitempty"`  // 错误消息
 }
 
