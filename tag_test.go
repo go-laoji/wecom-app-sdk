@@ -1,6 +1,8 @@
 package workchatapp
 
-import "testing"
+import (
+	"testing"
+)
 
 var testTag = Tag{
 	TagId:   10,

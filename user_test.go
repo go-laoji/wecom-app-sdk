@@ -1,6 +1,8 @@
 package workchatapp
 
-import "testing"
+import (
+	"testing"
+)
 
 var testUser = User{
 	Userid:     "laoji",
@@ -11,8 +13,11 @@ var testUser = User{
 }
 
 func TestWorkChat_UserCreate(t *testing.T) {
-	e := testWorkChat.UserCreate(testUser)
-	t.Log(e)
+	resp := testWorkChat.UserCreate(testUser)
+	if resp.ErrCode != 0 {
+		t.Error(resp.ErrorMsg)
+		return
+	}
 }
 func TestWorkChat_UserGet(t *testing.T) {
 	resp := testWorkChat.UserGet(testUser.Userid)

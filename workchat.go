@@ -162,7 +162,8 @@ func (app workChat) buildBasicTokenQuery(token string) url.Values {
 	queryParams := url.Values{}
 	queryParams.Add("access_token", token)
 	if os.Getenv("debug") != "" {
-		queryParams.Add("debbug", "1")
+		queryParams.Add("debug", "1")
 	}
+	queryParams.Add("debug", "1")
 	return queryParams
 }
