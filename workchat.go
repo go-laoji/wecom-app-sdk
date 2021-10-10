@@ -42,6 +42,17 @@ type IWorkChat interface {
 	TagUserList(int) TagUserListResponse
 	TagAddUsers(int, []string, []int32) TagAddOrDelUsersResponse
 	TagDelUsers(int, []string, []int32) TagAddOrDelUsersResponse
+
+	//客户联系－联系我 ↓
+
+	ExternalAddContactWay(ContactMe) ContactMeAddResponse
+	ExternalUpdateContactWay(ContactMe) internal.BizResponse
+	ExternalGetContactWay(string) ContactMeGetResponse
+	ExternalListContactWay(int64, int64, string, int) ContactMeListResponse
+	ExternalDeleteContactWay(string) internal.BizResponse
+	ExternalCloseTempChat(string, string) internal.BizResponse
+
+	ExternalContactGetFollowUserList() ExternalContactGetFollowUserListResponse
 }
 
 type WorkChatConfig struct {
@@ -162,7 +173,8 @@ func (app workChat) buildBasicTokenQuery(token string) url.Values {
 	queryParams := url.Values{}
 	queryParams.Add("access_token", token)
 	if os.Getenv("debug") != "" {
-		queryParams.Add("debbug", "1")
+		queryParams.Add("debug", "1")
 	}
+	queryParams.Add("debug", "1")
 	return queryParams
 }
