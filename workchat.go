@@ -42,6 +42,15 @@ type IWorkChat interface {
 	TagUserList(int) TagUserListResponse
 	TagAddUsers(int, []string, []int32) TagAddOrDelUsersResponse
 	TagDelUsers(int, []string, []int32) TagAddOrDelUsersResponse
+
+	//客户联系－联系我 ↓
+
+	ExternalAddContactWay(ContactMe) ContactMeAddResponse
+	ExternalUpdateContactWay(ContactMe) internal.BizResponse
+	ExternalGetContactWay(string) ContactMeGetResponse
+	ExternalListContactWay(int64, int64, string, int) ContactMeListResponse
+	ExternalDeleteContactWay(string) internal.BizResponse
+	ExternalCloseTempChat(string, string) internal.BizResponse
 }
 
 type WorkChatConfig struct {
