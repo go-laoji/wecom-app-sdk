@@ -53,6 +53,18 @@ type IWorkChat interface {
 	ExternalCloseTempChat(string, string) internal.BizResponse
 
 	ExternalContactGetFollowUserList() ExternalContactGetFollowUserListResponse
+
+	//客户联系－规则组管理 ↓
+
+	ExternalContactCustomerStrategyList(string, int) ExternalContactCustomerStrategyListResponse
+	ExternalContactCustomerStrategyGet(int) ExternalContactCustomerStrategyGetResponse
+	ExternalContactCustomerStrategyGetRange(int, string, int) ExternalContactCustomerStrategyGetRangeResponse
+	ExternalContactCustomerStrategyCreate(ExternalContactCustomerStrategyCreateRequest) ExternalContactCustomerStrategyCreateResponse
+	ExternalContactCustomerStrategyEdit(ExternalContactCustomerStrategyEditRequest) internal.BizResponse
+	ExternalContactCustomerStrategyDelete(int) internal.BizResponse
+	//应用管理 ↓
+
+	AgentGet() AgentGetResponse
 }
 
 type WorkChatConfig struct {
@@ -96,13 +108,14 @@ func (app workChat) requestAccessToken(secret string) (resp accessTokenResponse)
 	var data []byte
 	var err error
 	if data, err = internal.HttpGet(apiUrl); err != nil {
-		return accessTokenResponse{BizResponse: internal.BizResponse{internal.Error{ErrCode: 400, ErrorMsg: err.Error()}}}
+		resp.ErrCode = 400
+		resp.ErrorMsg = err.Error()
+		return
 	}
 	if err = json.Unmarshal(data, &resp); err != nil {
-		return accessTokenResponse{BizResponse: internal.BizResponse{internal.Error{ErrCode: 400, ErrorMsg: err.Error()}}}
-	}
-	if resp.ErrCode != 0 {
-		return accessTokenResponse{}
+		resp.ErrCode = 400
+		resp.ErrorMsg = err.Error()
+		return
 	}
 	return resp
 }
@@ -125,6 +138,7 @@ func (app *workChat) getContactsAccessToken() (token string) {
 	})
 	if err == badger.ErrKeyNotFound {
 		if resp := app.requestAccessToken(app.contactSecret); resp.ErrCode != 0 {
+			panic(resp)
 			//logger.Error(err.Error())
 		} else {
 			token = resp.AccessToken
@@ -155,7 +169,8 @@ func (app *workChat) getAppAccessToken() (token string) {
 		return err
 	})
 	if err == badger.ErrKeyNotFound {
-		if resp := app.requestAccessToken(app.contactSecret); resp.ErrCode != 0 {
+		if resp := app.requestAccessToken(app.appSecret); resp.ErrCode != 0 {
+			panic(resp)
 			//logger.Error(err.Error())
 		} else {
 			token = resp.AccessToken
