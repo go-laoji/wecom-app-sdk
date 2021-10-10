@@ -1,5 +1,7 @@
 package workchatapp
 
+//　参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92572
+
 import (
 	"encoding/json"
 	"fmt"

@@ -51,6 +51,8 @@ type IWorkChat interface {
 	ExternalListContactWay(int64, int64, string, int) ContactMeListResponse
 	ExternalDeleteContactWay(string) internal.BizResponse
 	ExternalCloseTempChat(string, string) internal.BizResponse
+
+	ExternalContactGetFollowUserList() ExternalContactGetFollowUserListResponse
 }
 
 type WorkChatConfig struct {
