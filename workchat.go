@@ -32,6 +32,16 @@ type IWorkChat interface {
 	DepartmentUpdate(Department) internal.BizResponse
 	DepartmentDelete(int32) internal.BizResponse
 	DepartmentList(int32) DepartmentListResponse
+
+	//通讯录管理－标签管理 ↓
+
+	TagCreate(Tag) TagCreateResponse
+	TagUpdate(Tag) internal.BizResponse
+	TagDelete(int) internal.BizResponse
+	TagList() TagListResponse
+	TagUserList(int) TagUserListResponse
+	TagAddUsers(int, []string, []int32) TagAddOrDelUsersResponse
+	TagDelUsers(int, []string, []int32) TagAddOrDelUsersResponse
 }
 
 type WorkChatConfig struct {
