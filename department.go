@@ -41,33 +41,33 @@ func (app workChat) DepartmentCreate(department Department) (resp DepartmentCrea
 }
 
 // DepartmentUpdate 更新部门
-func (app workChat) DepartmentUpdate(department Department) (e internal.Error) {
+func (app workChat) DepartmentUpdate(department Department) (resp internal.BizResponse) {
 	if ok := validate.Struct(department); ok != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = ok.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
 		return
 	}
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/department/update?%s", queryParams.Encode()), department)
 	if err != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = err.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }
 
 // DepartmentDelete 删除部门
-func (app workChat) DepartmentDelete(id int32) (e internal.Error) {
+func (app workChat) DepartmentDelete(id int32) (resp internal.BizResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	queryParams.Add("id", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/delete?%s", queryParams.Encode()))
 	if err != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = err.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }

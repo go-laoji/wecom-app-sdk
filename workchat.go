@@ -17,11 +17,11 @@ type IWorkChat interface {
 
 	//通讯录管理－成员管理 ↓
 
-	UserCreate(User) internal.Error
+	UserCreate(User) internal.BizResponse
 	UserGet(string) UserGetResponse
-	UserUpdate(User) internal.Error
-	UserDelete(string) internal.Error
-	UserBatchDelete([]string) internal.Error
+	UserUpdate(User) internal.BizResponse
+	UserDelete(string) internal.BizResponse
+	UserBatchDelete([]string) internal.BizResponse
 	UserSimpleList(int32, int) UserSimpleListResponse
 	UserList(int32, int) UserListResponse
 	UserId2OpenId(string) UserId2OpenIdResponse
@@ -29,9 +29,19 @@ type IWorkChat interface {
 	//通讯录管理－部门管理 ↓
 
 	DepartmentCreate(Department) DepartmentCreateResponse
-	DepartmentUpdate(Department) internal.Error
-	DepartmentDelete(int32) (e internal.Error)
+	DepartmentUpdate(Department) internal.BizResponse
+	DepartmentDelete(int32) internal.BizResponse
 	DepartmentList(int32) DepartmentListResponse
+
+	//通讯录管理－标签管理 ↓
+
+	TagCreate(Tag) TagCreateResponse
+	TagUpdate(Tag) internal.BizResponse
+	TagDelete(int) internal.BizResponse
+	TagList() TagListResponse
+	TagUserList(int) TagUserListResponse
+	TagAddUsers(int, []string, []int32) TagAddOrDelUsersResponse
+	TagDelUsers(int, []string, []int32) TagAddOrDelUsersResponse
 }
 
 type WorkChatConfig struct {
