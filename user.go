@@ -75,18 +75,19 @@ type ExternalAttr struct {
 }
 
 // UserCreate 创建成员
-func (app workChat) UserCreate(user User) (e internal.Error) {
+func (app workChat) UserCreate(user User) (resp internal.BizResponse) {
 	if ok := validate.Struct(user); ok != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = ok.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
 		return
 	}
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/create?%s", queryParams.Encode()), user)
 	if err != nil {
-		return internal.Error{ErrCode: 500, ErrorMsg: err.Error()}
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }
@@ -111,48 +112,48 @@ func (app workChat) UserGet(userId string) (resp UserGetResponse) {
 }
 
 // UserUpdate 更新成员
-func (app workChat) UserUpdate(user User) (e internal.Error) {
+func (app workChat) UserUpdate(user User) (resp internal.BizResponse) {
 	if ok := validate.Struct(user); ok != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = ok.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
 		return
 	}
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/update?%s", queryParams.Encode()), user)
 	if err != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = err.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }
 
 // UserDelete 删除成员
-func (app workChat) UserDelete(userId string) (e internal.Error) {
+func (app workChat) UserDelete(userId string) (resp internal.BizResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	queryParams.Add("userid", userId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/delete?%s", queryParams.Encode()))
 	if err != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = err.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }
 
 // UserBatchDelete 批量删除成员
-func (app workChat) UserBatchDelete(ids []string) (e internal.Error) {
+func (app workChat) UserBatchDelete(ids []string) (resp internal.BizResponse) {
 	p := H{"useridlist": ids}
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/batchdelete?%s",
 		queryParams.Encode()), p)
 	if err != nil {
-		e.ErrCode = 500
-		e.ErrorMsg = err.Error()
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
 	} else {
-		json.Unmarshal(body, &e)
+		json.Unmarshal(body, &resp)
 	}
 	return
 }
