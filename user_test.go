@@ -8,7 +8,7 @@ var testUser = User{
 	Userid:     "laoji",
 	Name:       "老纪",
 	Department: []int32{1},
-	Mobile:     "13121070248",
+	Email: "test@test.com",
 	Enable:     1,
 }
 

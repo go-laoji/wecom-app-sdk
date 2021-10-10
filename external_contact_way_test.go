@@ -1,6 +1,9 @@
 package workchatapp
 
-import "testing"
+import (
+	"testing"
+	"time"
+)
 
 var testContactMe = ContactMe{
 	Type:  1,
@@ -21,7 +24,7 @@ func TestWorkChat_ExternalAddContactWay(t *testing.T) {
 
 func TestWorkChat_ExternalUpdateContactWay(t *testing.T) {
 	testContactMe.Remark = "更新备注"
-	resp := testWorkChat.ExternalAddContactWay(testContactMe)
+	resp := testWorkChat.ExternalUpdateContactWay(testContactMe)
 	if resp.ErrCode != 0 {
 		t.Error(resp.ErrorMsg)
 		return
@@ -39,7 +42,7 @@ func TestWorkChat_ExternalGetContactWay(t *testing.T) {
 }
 
 func TestWorkChat_ExternalListContactWay(t *testing.T) {
-	resp := testWorkChat.ExternalListContactWay(0, 0, "", 100)
+	resp := testWorkChat.ExternalListContactWay(1633888980, time.Now().Unix(), "", 100)
 	if resp.ErrCode != 0 {
 		t.Error(resp.ErrorMsg)
 		return
