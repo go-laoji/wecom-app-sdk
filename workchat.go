@@ -62,9 +62,17 @@ type IWorkChat interface {
 	ExternalContactCustomerStrategyCreate(ExternalContactCustomerStrategyCreateRequest) ExternalContactCustomerStrategyCreateResponse
 	ExternalContactCustomerStrategyEdit(ExternalContactCustomerStrategyEditRequest) internal.BizResponse
 	ExternalContactCustomerStrategyDelete(int) internal.BizResponse
+
 	//应用管理 ↓
 
 	AgentGet() AgentGetResponse
+
+	//企业标签管理(客户) ↓
+
+	CorpTagList([]string, []string) CorpTagListResponse
+	CorpTagAdd(CorpTagGroup) CorpTagAddResponse
+	CorpTagUpdate(CorpTag) internal.BizResponse
+	CorpTagDelete([]string, []string) internal.BizResponse
 }
 
 type WorkChatConfig struct {
