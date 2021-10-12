@@ -1,6 +1,8 @@
 package workchatapp
 
-import "testing"
+import (
+	"testing"
+)
 
 var testCorpTagGroup = CorpTagGroup{
 	GroupName: "测试标签组",
@@ -61,11 +63,16 @@ func TestWorkChat_CorpTagList2(t *testing.T) {
 		t.Error(resp.ErrorMsg)
 		return
 	}
-	if len(resp.TagGroup[0].Tag) != 2 {
-		t.Error("删除标签失败")
-		return
+	for _, tag := range resp.TagGroup[0].Tag {
+		if tag.Id != testUpdateTagId {
+			continue
+		}
+		if tag.Deleted {
+			t.Log("标签删除成功")
+		} else {
+			t.Error("删除标签失败")
+		}
 	}
-	t.Log(resp.TagGroup)
 }
 
 func TestWorkChat_CorpTagDelete2(t *testing.T) {
