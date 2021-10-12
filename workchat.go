@@ -78,6 +78,17 @@ type IWorkChat interface {
 
 	TransferCustomer(TransferCustomerRequest) TransferCustomerResponse
 	TransferResult(TransferResultRequest) TransferResultResponse
+
+	//离职继承 ↓
+
+	GetUnassignedList(request UnAssignedRequest) (resp UnAssignedResponse)
+	TransferCustomerResigned(request TransferCustomerRequest) (resp TransferCustomerResponse)
+	TransferResultResigned(request TransferResultRequest) (resp TransferResultResponse)
+	TransferGroupChat(request GroupChatTransferRequest) (resp GroupChatTransferResponse)
+
+	//客户群管理 ↓
+
+
 }
 
 type WorkChatConfig struct {
