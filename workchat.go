@@ -73,6 +73,11 @@ type IWorkChat interface {
 	CorpTagAdd(CorpTagGroup) CorpTagAddResponse
 	CorpTagUpdate(CorpTag) internal.BizResponse
 	CorpTagDelete([]string, []string) internal.BizResponse
+
+	//在职继承 ↓
+
+	TransferCustomer(TransferCustomerRequest) TransferCustomerResponse
+	TransferResult(TransferResultRequest) TransferResultResponse
 }
 
 type WorkChatConfig struct {
