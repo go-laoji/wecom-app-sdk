@@ -5,8 +5,11 @@ import (
 )
 
 var testConfig = WorkChatConfig{
-	CorpId:        "ww49a9747f42745dc8",
-	ContactSecret: "XTzeFr-ojsX7DshopWksorPLxAQr5qKLZpOUF0299LA"}
+	CorpId:        "ww190690c489d2eb53",
+	ContactSecret: "08tnu5LGrsbKwvEDfTGlBMFMw3CsUCwRMavxvkLZSH8",
+	AppId:         "1000002",
+	AppSecret:     "pedn4nqraARPFOG_A-aVFz1F9pp1sdR-3K1fsCpTwg0",
+}
 var testWorkChat = NewWorkChatApp(testConfig)
 
 func TestWorkChat_GetCorpId(t *testing.T) {
