@@ -66,3 +66,36 @@ func (app workChat) TransferResult(request TransferResultRequest) (resp Transfer
 	}
 	return
 }
+
+type UnAssignedRequest struct {
+	PageId   int    `json:"page_id" validate:"required_without=Cursor,omitempty"`
+	PageSize int    `json:"page_size" validate:"max=1000"`
+	Cursor   string `json:"cursor" validate:"required_without=PageId,omitempty"`
+}
+
+type UnAssignedInfo struct {
+	HandoverUserId string `json:"handover_userid"`
+	ExternalUserId  string `json:"external_userid"`
+	DimissionTime  uint64 `json:"dimission_time"`
+}
+
+type UnAssignedResponse struct {
+	internal.BizResponse
+	Info       []UnAssignedInfo `json:"info"`
+	IsLast     bool             `json:"is_last"`
+	NextCursor string           `json:"next_cursor"`
+}
+
+// GetUnassignedList 获取待分配的离职成员列表
+// 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92124
+func (app workChat) GetUnassignedList(request UnAssignedRequest)(resp UnAssignedResponse) {
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/get_unassigned_list?%s", queryParams.Encode()), request)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
