@@ -88,7 +88,9 @@ type IWorkChat interface {
 
 	//客户群管理 ↓
 
-
+	GroupChatList(GroupChatListFilter) GroupChatListResponse
+	GroupChat(GroupChatRequest) GroupChatResponse
+	GroupOpenId2ChatId(string) GroupOpenId2ChatIdResponse
 }
 
 type WorkChatConfig struct {
@@ -107,14 +109,14 @@ type workChat struct {
 	cache         *badger.DB
 }
 
-func NewWorkChatApp(c WorkChatConfig) workChat {
+func NewWorkChatApp(c WorkChatConfig) IWorkChat {
 	app := new(workChat)
 	app.corpId = c.CorpId
 	app.contactSecret = c.ContactSecret
 	app.appId = c.AppId
 	app.appSecret = c.AppSecret
 	app.cache, _ = badger.Open(badger.DefaultOptions("").WithInMemory(true))
-	return *app
+	return app
 }
 
 func (app workChat) GetCorpId() string {
