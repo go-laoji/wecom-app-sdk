@@ -91,6 +91,10 @@ type IWorkChat interface {
 	GroupChatList(GroupChatListFilter) GroupChatListResponse
 	GroupChat(GroupChatRequest) GroupChatResponse
 	GroupOpenId2ChatId(string) GroupOpenId2ChatIdResponse
+
+	AddMomentTask(task MomentTask) (resp AddMomentTaskResponse)
+	GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse)
+	MediaUploadAttachment(Media) MediaUploadResponse
 }
 
 type WorkChatConfig struct {
