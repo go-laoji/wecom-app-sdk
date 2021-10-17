@@ -2,6 +2,7 @@ package workchatapp
 
 import (
 	"testing"
+	"time"
 )
 
 var testMomentTask = MomentTask{
@@ -11,6 +12,7 @@ var testMomentTask = MomentTask{
 }
 
 var testJobId = ""
+var testMomentId = ""
 
 func TestWorkChat_AddMomentTask(t *testing.T) {
 	resp := testWorkChat.MediaUploadAttachment(testAttachment)
@@ -35,6 +37,33 @@ func TestWorkChat_AddMomentTask(t *testing.T) {
 
 func TestWorkChat_GetMomentTaskResult(t *testing.T) {
 	resp := testWorkChat.GetMomentTaskResult(testJobId)
+	if resp.ErrCode != 0 {
+		t.Error(resp.ErrorMsg)
+		return
+	}
+	t.Log(resp)
+}
+
+func TestWorkChat_GetMomentList(t *testing.T) {
+	var testFilter = MomentListFilter{
+		StartTime: time.Now().Unix() - 1000,
+		EndTime:   time.Now().Unix()}
+	resp := testWorkChat.GetMomentList(testFilter)
+	if resp.ErrCode != 0 {
+		t.Error(resp.ErrorMsg)
+		return
+	}
+	for _, moment := range resp.MomentList {
+		testMomentId = moment.MomentID
+	}
+	t.Log(resp)
+}
+
+func TestWorkChat_GetMomentTask(t *testing.T) {
+	var testFilter = MomentTaskFilter{
+		MomentId: testMomentId,
+	}
+	resp := testWorkChat.GetMomentTask(testFilter)
 	if resp.ErrCode != 0 {
 		t.Error(resp.ErrorMsg)
 		return

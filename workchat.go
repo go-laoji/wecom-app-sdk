@@ -92,8 +92,13 @@ type IWorkChat interface {
 	GroupChat(GroupChatRequest) GroupChatResponse
 	GroupOpenId2ChatId(string) GroupOpenId2ChatIdResponse
 
+	//客户朋友圈 ↓
+	// TODO: 测试未完成，接口不完整
+
 	AddMomentTask(task MomentTask) (resp AddMomentTaskResponse)
 	GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse)
+	GetMomentList(filter MomentListFilter) (resp GetMomentListResponse)
+	GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse)
 	MediaUploadAttachment(Media) MediaUploadResponse
 }
 
