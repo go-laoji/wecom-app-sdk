@@ -136,6 +136,7 @@ func (app workChat) GetMomentList(filter MomentListFilter) (resp GetMomentListRe
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
+		return
 	}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/get_moment_list?%s", queryParams.Encode()), filter)

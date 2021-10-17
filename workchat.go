@@ -100,6 +100,13 @@ type IWorkChat interface {
 	GetMomentList(filter MomentListFilter) (resp GetMomentListResponse)
 	GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse)
 	MediaUploadAttachment(Media) MediaUploadResponse
+
+	//消息推送-客户群发 ↓
+
+	AddMsgTemplate(msg ExternalMsg) (resp AddMsgTemplateResponse)
+	GetGroupMsgListV2(filter GroupMsgListFilter) (resp GetGroupMsgListV2Response)
+	GetGroupMsgTask(filter GroupMsgTaskFilter) (resp GetGroupMsgTaskResponse)
+	GetGroupMsgSendResult(filter GroupMsgSendResultFilter) (resp GetGroupMsgSendResultResponse)
 }
 
 type WorkChatConfig struct {

@@ -31,6 +31,9 @@ func httpRequestWithContext(ctx context.Context, request *http.Request, resChan 
 	if err != nil {
 		return fmt.Errorf("client.Do Error: %s", err.Error())
 	}
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("response from weixin with status %v", resp.StatusCode)
+	}
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("ioutil.ReadAll Error: %s", err.Error())
