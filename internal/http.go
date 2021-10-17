@@ -6,8 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
+	"mime/multipart"
 	"net/http"
+	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -26,6 +30,9 @@ func httpRequestWithContext(ctx context.Context, request *http.Request, resChan 
 	resp, err := client.Do(request)
 	if err != nil {
 		return fmt.Errorf("client.Do Error: %s", err.Error())
+	}
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("response from weixin with status %v", resp.StatusCode)
 	}
 	data, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
@@ -80,4 +87,48 @@ func HttpPost(apiUrl string, params interface{}) (body []byte, err error) {
 	case body = <-resChan:
 		return body, nil
 	}
+}
+
+func HttpUploadMedia(apiUrl string, filePath string) (body []byte, err error) {
+	repoUrl := fmt.Sprintf("%s%s", qyApiHost, apiUrl)
+	reader, writer := io.Pipe()
+	request, err := http.NewRequest(http.MethodPost, repoUrl, reader)
+	mwriter := multipart.NewWriter(writer)
+	request.Header.Set("Content-Type", mwriter.FormDataContentType())
+	errchan := make(chan error)
+
+	go func() {
+		defer close(errchan)
+		defer writer.Close()
+		defer mwriter.Close()
+		_, filename := filepath.Split(filePath)
+		w, err := mwriter.CreateFormFile("media", filename)
+		if err != nil {
+			errchan <- err
+			return
+		}
+		n, err := os.Open(filePath)
+		if err != nil {
+			errchan <- err
+			return
+		}
+		defer n.Close()
+		if written, err := io.Copy(w, n); err != nil {
+			errchan <- fmt.Errorf("error copying %s (%d bytes written): %v", filePath, written, err)
+		}
+		if err = mwriter.Close(); err != nil {
+			errchan <- err
+			return
+		}
+	}()
+	client := &http.Client{}
+	resp, err := client.Do(request)
+	merr := <-errchan
+
+	if err != nil || merr != nil {
+		return nil, fmt.Errorf("http error: %v, multipart error: %v", err, merr)
+	}
+	body, err = ioutil.ReadAll(resp.Body)
+	defer resp.Body.Close()
+	return
 }

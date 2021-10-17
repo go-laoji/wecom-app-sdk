@@ -78,6 +78,35 @@ type IWorkChat interface {
 
 	TransferCustomer(TransferCustomerRequest) TransferCustomerResponse
 	TransferResult(TransferResultRequest) TransferResultResponse
+
+	//离职继承 ↓
+
+	GetUnassignedList(request UnAssignedRequest) (resp UnAssignedResponse)
+	TransferCustomerResigned(request TransferCustomerRequest) (resp TransferCustomerResponse)
+	TransferResultResigned(request TransferResultRequest) (resp TransferResultResponse)
+	TransferGroupChat(request GroupChatTransferRequest) (resp GroupChatTransferResponse)
+
+	//客户群管理 ↓
+
+	GroupChatList(GroupChatListFilter) GroupChatListResponse
+	GroupChat(GroupChatRequest) GroupChatResponse
+	GroupOpenId2ChatId(string) GroupOpenId2ChatIdResponse
+
+	//客户朋友圈 ↓
+	// TODO: 测试未完成，接口不完整
+
+	AddMomentTask(task MomentTask) (resp AddMomentTaskResponse)
+	GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse)
+	GetMomentList(filter MomentListFilter) (resp GetMomentListResponse)
+	GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse)
+	MediaUploadAttachment(Media) MediaUploadResponse
+
+	//消息推送-客户群发 ↓
+
+	AddMsgTemplate(msg ExternalMsg) (resp AddMsgTemplateResponse)
+	GetGroupMsgListV2(filter GroupMsgListFilter) (resp GetGroupMsgListV2Response)
+	GetGroupMsgTask(filter GroupMsgTaskFilter) (resp GetGroupMsgTaskResponse)
+	GetGroupMsgSendResult(filter GroupMsgSendResultFilter) (resp GetGroupMsgSendResultResponse)
 }
 
 type WorkChatConfig struct {
@@ -96,14 +125,14 @@ type workChat struct {
 	cache         *badger.DB
 }
 
-func NewWorkChatApp(c WorkChatConfig) workChat {
+func NewWorkChatApp(c WorkChatConfig) IWorkChat {
 	app := new(workChat)
 	app.corpId = c.CorpId
 	app.contactSecret = c.ContactSecret
 	app.appId = c.AppId
 	app.appSecret = c.AppSecret
 	app.cache, _ = badger.Open(badger.DefaultOptions("").WithInMemory(true))
-	return *app
+	return app
 }
 
 func (app workChat) GetCorpId() string {
