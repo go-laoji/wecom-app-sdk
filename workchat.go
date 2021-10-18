@@ -66,6 +66,7 @@ type IWorkChat interface {
 	//应用管理 ↓
 
 	AgentGet() AgentGetResponse
+	AgentList() (resp AgentListResponse)
 
 	//企业标签管理(客户) ↓
 
