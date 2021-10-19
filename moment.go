@@ -18,8 +18,13 @@ type Text struct {
 type Image struct {
 	MediaID string `json:"media_id" validate:"required"`
 }
+
+// Video 应用消息发关时title和description为可选项
+// 朋友圈发送时只设置　media_id即可
 type Video struct {
-	MediaID string `json:"media_id" validate:"required"`
+	MediaID     string `json:"media_id" validate:"required"`
+	Title       string `json:"title,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 type Link struct {
 	Title   string `json:"title"`
