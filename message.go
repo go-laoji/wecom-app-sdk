@@ -98,6 +98,24 @@ type MarkDownMessage struct {
 	MarkDown Text `json:"markdown" validate:"required"`
 }
 
+type MiniProgramNotice struct {
+	Appid             string `json:"appid" validate:"required"`
+	Page              string `json:"page"`
+	Title             string `json:"title" validate:"required"`
+	Description       string `json:"description"`
+	EmphasisFirstItem bool   `json:"emphasis_first_item"`
+	ContentItem       []struct {
+		Key   string `json:"key" validate:"required"`
+		Value string `json:"value" validate:"required"`
+	} `json:"content_item"`
+}
+
+type MiniProgramMessage struct {
+	Message
+	MiniProgramNotice MiniProgramNotice `json:"miniprogram_notice"`
+}
+
+
 type MessageSendResponse struct {
 	internal.BizResponse
 	InvalidUser  string `json:"invaliduser"`
@@ -107,6 +125,8 @@ type MessageSendResponse struct {
 	ResponseCode string `json:"response_code"`
 }
 
+// MessageSend 发送应用消息
+// https://open.work.weixin.qq.com/api/doc/90000/90135/90236
 func (app workChat) MessageSend(msg interface{}) (resp MessageSendResponse) {
 	if ok := validate.Struct(msg); ok != nil {
 		resp.ErrCode = 500
@@ -140,6 +160,21 @@ func (app workChat) MessageSend(msg interface{}) (resp MessageSendResponse) {
 
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/message/send?%s", queryParams.Encode()), h)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+// MessageReCall 撤回应用消息
+// https://open.work.weixin.qq.com/api/doc/90000/90135/94867
+func (app workChat) MessageReCall(msgId string) (resp internal.BizResponse) {
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	h := H{"msgid": msgId}
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/message/recall?%s", queryParams.Encode()), h)
 	if err != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = err.Error()
