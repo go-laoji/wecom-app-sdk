@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+// 有时候会触发　41063　错误码，因为异步发送还未到接收人
+
 var testMomentTask = MomentTask{
 	Text: Text{
 		Content: "测试发圈",

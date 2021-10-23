@@ -112,6 +112,7 @@ type IWorkChat interface {
 	//消息推送(内部成员) ↓
 
 	MessageSend(msg interface{}) (resp MessageSendResponse)
+	MessageReCall(msgId string) (resp internal.BizResponse)
 }
 
 type WorkChatConfig struct {

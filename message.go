@@ -115,7 +115,6 @@ type MiniProgramMessage struct {
 	MiniProgramNotice MiniProgramNotice `json:"miniprogram_notice"`
 }
 
-
 type MessageSendResponse struct {
 	internal.BizResponse
 	InvalidUser  string `json:"invaliduser"`
@@ -156,6 +155,10 @@ func (app workChat) MessageSend(msg interface{}) (resp MessageSendResponse) {
 		h["msgtype"] = "mpnews"
 	case MarkDownMessage:
 		h["msgtype"] = "markdown"
+	case MiniProgramMessage:
+		h["msgtype"] = "miniprogram_notice"
+	case TemplateCardMessage:
+		h["msgtype"] = "template_card"
 	}
 
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
