@@ -1,5 +1,11 @@
 package workchatapp
 
+import (
+	"encoding/json"
+	"fmt"
+	"github.com/go-laoji/workchatapp/internal"
+)
+
 type TemplateCardType string
 
 const (
@@ -150,4 +156,46 @@ type TemplateCard struct {
 	CheckBox     CheckBox     `json:"checkbox,omitempty"`
 	SelectList   []SelectList `json:"select_list,omitempty" validate:"max=3"`
 	SubmitButton SubmitButton `json:"submit_button,omitempty"`
+}
+
+type TemplateCardUpdateMessage struct {
+	UserIds      []string `json:"userids" validate:"omitempty,max=100"`
+	PartyIds     []int64  `json:"partyids" validate:"omitempty,max=100"`
+	TagIds       []int32  `json:"tagids" validate:"omitempty,max=100"`
+	AtAll        int      `json:"atall,omitempty"`
+	ResponseCode string   `json:"response_code" validate:"required"`
+	Button       struct {
+		ReplaceName string `json:"replace_name" validate:"required"`
+	} `json:"button" validate:"required_without=TemplateCard"`
+	TemplateCard TemplateCard `json:"template_card" validate:"required_without=Button"`
+	ReplaceText  string       `json:"replace_text,omitempty"`
+}
+
+type MessageUpdateTemplateCardResponse struct {
+	internal.BizResponse
+	InvalidUser []string `json:"invalid_user"`
+}
+
+// MessageUpdateTemplateCard 更新模板卡片消息
+// https://open.work.weixin.qq.com/api/doc/90000/90135/94888
+func (app workChat) MessageUpdateTemplateCard(msg TemplateCardUpdateMessage) (resp MessageUpdateTemplateCardResponse) {
+	if ok := validate.Struct(msg); ok != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
+		return
+	}
+	h := H{}
+	buf, _ := json.Marshal(msg)
+	json.Unmarshal(buf, &h)
+	h["agentid"] = app.appId
+
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/message/update_template_card?%s", queryParams.Encode()), h)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
 }

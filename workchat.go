@@ -113,6 +113,7 @@ type IWorkChat interface {
 
 	MessageSend(msg interface{}) (resp MessageSendResponse)
 	MessageReCall(msgId string) (resp internal.BizResponse)
+	MessageUpdateTemplateCard(msg TemplateCardUpdateMessage) (resp MessageUpdateTemplateCardResponse)
 }
 
 type WorkChatConfig struct {
