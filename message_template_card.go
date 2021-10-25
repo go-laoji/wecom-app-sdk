@@ -144,18 +144,18 @@ type TemplateCard struct {
 	EmphasisContent *EmphasisContent `json:"emphasis_content,omitempty"`
 	SubTitleText    string           `json:"sub_title_text,omitempty"`
 	// 图文展示型
-	ImageTextArea         *ImageTextArea          `json:"image_text_area,omitempty" validate:"required_without=CardImage"`
-	CardImage             CardImage               `json:"card_image,omitempty" validate:"required_without=ImageTextArea"`
+	ImageTextArea         *ImageTextArea          `json:"image_text_area,omitempty"`
+	CardImage             *CardImage              `json:"card_image,omitempty"`
 	HorizontalContentList []HorizontalContentList `json:"horizontal_content_list"`
 	JumpList              []JumpList              `json:"jump_list"`
 	CardAction            CardAction              `json:"card_action,omitempty"`
 	// 按钮交互型
-	ButtonSelection ButtonSelection `json:"button_selection,omitempty"`
-	ButtonList      []Button        `json:"button_list,omitempty" validate:"required,max=6"`
+	ButtonSelection *ButtonSelection `json:"button_selection,omitempty"`
+	ButtonList      []Button         `json:"button_list,omitempty" validate:"omitempty,max=6"`
 	// 投票选择型
-	CheckBox     CheckBox     `json:"checkbox,omitempty"`
-	SelectList   []SelectList `json:"select_list,omitempty" validate:"max=3"`
-	SubmitButton SubmitButton `json:"submit_button,omitempty"`
+	CheckBox     *CheckBox     `json:"checkbox,omitempty"`
+	SelectList   []SelectList  `json:"select_list,omitempty" validate:"max=3"`
+	SubmitButton *SubmitButton `json:"submit_button,omitempty"`
 }
 
 type TemplateCardUpdateMessage struct {
