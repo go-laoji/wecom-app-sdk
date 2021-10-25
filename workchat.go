@@ -108,6 +108,16 @@ type IWorkChat interface {
 	GetGroupMsgListV2(filter GroupMsgListFilter) (resp GetGroupMsgListV2Response)
 	GetGroupMsgTask(filter GroupMsgTaskFilter) (resp GetGroupMsgTaskResponse)
 	GetGroupMsgSendResult(filter GroupMsgSendResultFilter) (resp GetGroupMsgSendResultResponse)
+
+	//消息推送(内部成员) ↓
+
+	MessageSend(msg interface{}) (resp MessageSendResponse)
+	MessageReCall(msgId string) (resp internal.BizResponse)
+	MessageUpdateTemplateCard(msg TemplateCardUpdateMessage) (resp MessageUpdateTemplateCardResponse)
+	AppChatCreate(request AppChatCreateRequest) (resp AppChatCreateResponse)
+	AppChatUpdate(request AppChatUpdateRequest) (resp internal.BizResponse)
+	AppChatGet(chatId string) (resp AppChatGetResponse)
+	AppChatSend(msg interface{}, chatId string) (resp internal.BizResponse)
 }
 
 type WorkChatConfig struct {

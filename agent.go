@@ -42,15 +42,17 @@ func (app workChat) AgentGet() (resp AgentGetResponse) {
 	}
 	return
 }
+
 type AgentListResponse struct {
 	internal.BizResponse
-	AgentList []struct{
-		AgentId int `json:"agentid"`
-		Name string `json:"name"`
+	AgentList []struct {
+		AgentId       int    `json:"agentid"`
+		Name          string `json:"name"`
 		SquareLogoUrl string `json:"square_logo_url"`
 	}
 }
-func (app workChat)AgentList()(resp AgentListResponse)  {
+
+func (app workChat) AgentList() (resp AgentListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/agent/list?%s", queryParams.Encode()))
 	if err != nil {
