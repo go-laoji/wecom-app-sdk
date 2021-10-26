@@ -89,7 +89,7 @@ func HttpPost(apiUrl string, params interface{}) (body []byte, err error) {
 	}
 }
 
-func HttpUploadMedia(apiUrl string, filePath string) (body []byte, err error) {
+func HttpUploadMedia(apiUrl string, filePath string, filename string) (body []byte, err error) {
 	repoUrl := fmt.Sprintf("%s%s", qyApiHost, apiUrl)
 	reader, writer := io.Pipe()
 	request, err := http.NewRequest(http.MethodPost, repoUrl, reader)
@@ -101,7 +101,9 @@ func HttpUploadMedia(apiUrl string, filePath string) (body []byte, err error) {
 		defer close(errchan)
 		defer writer.Close()
 		defer mwriter.Close()
-		_, filename := filepath.Split(filePath)
+		if filename == "" {
+			_, filename = filepath.Split(filePath)
+		}
 		w, err := mwriter.CreateFormFile("media", filename)
 		if err != nil {
 			errchan <- err

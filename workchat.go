@@ -100,7 +100,12 @@ type IWorkChat interface {
 	GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse)
 	GetMomentList(filter MomentListFilter) (resp GetMomentListResponse)
 	GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse)
+
+	//素材管理 ↓
+
 	MediaUploadAttachment(Media) MediaUploadResponse
+	MediaUpload(fileType MediaType, filePath string, fileName string) (resp MediaUploadResponse)
+	MediaUploadImg(filePath string, fileName string) (resp MediaUploadImgResponse)
 
 	//消息推送-客户群发 ↓
 
