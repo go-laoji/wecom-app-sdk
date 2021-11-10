@@ -245,7 +245,7 @@ type UserInfoResponse struct {
 }
 
 func (app workChat) GetUserInfo(code string) (resp UserInfoResponse) {
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("code", code)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/getuserinfo?%s", queryParams.Encode()))
 	if err != nil {
