@@ -235,3 +235,24 @@ func (app workChat) UserId2OpenId(userId string) (resp UserId2OpenIdResponse) {
 	}
 	return
 }
+
+type UserInfoResponse struct {
+	internal.BizResponse
+	UserId         string `json:"UserId"`
+	DeviceId       string `json:"DeviceId"`
+	OpenId         string `json:"OpenId"`
+	ExternalUserId string `json:"external_userid"`
+}
+
+func (app workChat) GetUserInfo(code string) (resp UserInfoResponse) {
+	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams.Add("code", code)
+	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/getuserinfo?%s", queryParams.Encode()))
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}

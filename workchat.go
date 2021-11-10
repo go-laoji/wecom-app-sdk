@@ -25,6 +25,7 @@ type IWorkChat interface {
 	UserSimpleList(int32, int) UserSimpleListResponse
 	UserList(int32, int) UserListResponse
 	UserId2OpenId(string) UserId2OpenIdResponse
+	GetUserInfo(code string) (resp UserInfoResponse)
 
 	//通讯录管理－部门管理 ↓
 
