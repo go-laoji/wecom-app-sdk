@@ -8,7 +8,7 @@ import (
 
 type MomentTask struct {
 	Text         Text          `json:"text,omitempty"`
-	Attachments  []Attachments `json:"attachments" validate:"required,dive"`
+	Attachments  []Attachments `json:"attachments" validate:"required_without=Text.Content"`
 	VisibleRange VisibleRange  `json:"visible_range,omitempty"`
 }
 

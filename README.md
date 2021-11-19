@@ -12,6 +12,11 @@
 - 自建应用需要有客户联系权限
 - 通讯录写权限较高，所以需要配置通讯录和自建应用两个`secret`
 
+## 联系我
+
+![contactme](./contact_me.jpeg)
+
+
 ## 安装使用
 
     go get github.com/go-laoji/workchatapp
@@ -182,3 +187,5 @@
     - [x] 修改群聊会话
     - [x] 获取群聊会话
     - [x] 应用推送消息
+- 身份验证
+    - [x] 获取访问用户身份
