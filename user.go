@@ -17,22 +17,23 @@ import (
 // User 成员定义
 //　可以参考连接：https://open.work.weixin.qq.com/api/doc/90000/90135/90195
 type User struct {
-	OpenUserId     string  `json:"open_userid,omitempty"` // 仅在查询时返回
-	Userid         string  `json:"userid" validate:"required"`
-	Name           string  `json:"name" validate:"required"`
-	Alias          string  `json:"alias,omitempty"`
-	Mobile         string  `json:"mobile"  validate:"required_without=Email,omitempty"`
-	Department     []int32 `json:"department" validate:"required,max=100"`
-	Order          []int32 `json:"order,omitempty"`
-	Position       string  `json:"position,omitempty"`
-	Gender         string  `json:"gender,omitempty" validate:"omitempty,oneof=1 2"`
-	Email          string  `json:"email"  validate:"required_without=Mobile,omitempty,email"`
-	IsLeaderInDept []int   `json:"is_leader_in_dept,omitempty"`
-	Enable         int     `json:"enable"`
-	AvatarMediaid  string  `json:"avatar_mediaid,omitempty"`
-	Telephone      string  `json:"telephone,omitempty"`
-	Address        string  `json:"address,omitempty"`
-	MainDepartment int32   `json:"main_department,omitempty"`
+	OpenUserId     string   `json:"open_userid,omitempty"` // 仅在查询时返回
+	Userid         string   `json:"userid" validate:"required"`
+	Name           string   `json:"name" validate:"required"`
+	Alias          string   `json:"alias,omitempty"`
+	Mobile         string   `json:"mobile"  validate:"required_without=Email,omitempty"`
+	Department     []int32  `json:"department" validate:"required,max=100"`
+	Order          []int32  `json:"order,omitempty"`
+	Position       string   `json:"position,omitempty"`
+	Gender         string   `json:"gender,omitempty" validate:"omitempty,oneof=1 2"`
+	Email          string   `json:"email"  validate:"required_without=Mobile,omitempty,email"`
+	IsLeaderInDept []int    `json:"is_leader_in_dept,omitempty"`
+	DirectLeader   []string `json:"direct_leader"`
+	Enable         int      `json:"enable"`
+	AvatarMediaid  string   `json:"avatar_mediaid,omitempty"`
+	Telephone      string   `json:"telephone,omitempty"`
+	Address        string   `json:"address,omitempty"`
+	MainDepartment int32    `json:"main_department,omitempty"`
 	Extattr        struct {
 		Attrs []Attrs `json:"attrs,omitempty"`
 	} `json:"extattr,omitempty"`

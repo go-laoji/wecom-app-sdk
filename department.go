@@ -10,11 +10,12 @@ import (
 )
 
 type Department struct {
-	Id       int32  `json:"id"`
-	Order    int    `json:"order,omitempty"`
-	ParentId int32  `json:"parentid" validate:"required"`
-	Name     string `json:"name" validate:"required,min=1,max=32"`
-	NameEn   string `json:"name_en,omitempty" validate:"omitempty,min=1,max=32"`
+	Id               int32    `json:"id"`
+	Order            int      `json:"order,omitempty"`
+	ParentId         int32    `json:"parentid" validate:"required"`
+	Name             string   `json:"name" validate:"required,min=1,max=32"`
+	NameEn           string   `json:"name_en,omitempty" validate:"omitempty,min=1,max=32"`
+	DepartmentLeader []string `json:"department_leader"`
 }
 
 type DepartmentCreateResponse struct {
