@@ -35,7 +35,7 @@ type ContactMe struct {
 	ConfigId      string   `json:"config_id,omitempty"`
 	Type          int      `json:"type" validate:"required,oneof=1 2"`
 	Scene         int      `json:"scene" validate:"required,oneof=1 2"`
-	Stype         int      `json:"stype"`
+	Style         int      `json:"style"`
 	Remark        string   `json:"remark"`
 	SkipVerify    bool     `json:"skip_verify"`
 	State         string   `json:"state"`

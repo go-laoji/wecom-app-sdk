@@ -92,7 +92,7 @@ type IWorkChat interface {
 
 	GroupChatList(GroupChatListFilter) GroupChatListResponse
 	GroupChat(GroupChatRequest) GroupChatResponse
-	GroupOpenId2ChatId(string) GroupOpenId2ChatIdResponse
+	GroupOpengId2ChatId(string) GroupOpengId2ChatIdResponse
 
 	//客户朋友圈 ↓
 	// TODO: 测试未完成，接口不完整
