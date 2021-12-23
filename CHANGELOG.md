@@ -1,5 +1,12 @@
 # 　变更记录
 
+## v1.2.7 2021-12-23
+
+* 调整成员、部门的读操作使用的access token为自建应用的access token
+* 调整成员标签的读写操作使用的access token为自建应用的access token
+
+如果应用不做通讯录的写操作，可以不配置 `ContactSecret`
+
 ## v1.2.6 2021-12-08
 
 bugfix:
