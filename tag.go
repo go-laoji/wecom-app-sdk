@@ -27,7 +27,7 @@ func (app workChat) TagCreate(tag Tag) (resp TagCreateResponse) {
 		resp.ErrorMsg = ok.Error()
 		return
 	}
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/create?%s", queryParams.Encode()), tag)
 	if err != nil {
 		resp.ErrCode = 500
@@ -45,7 +45,7 @@ func (app workChat) TagUpdate(tag Tag) (resp internal.BizResponse) {
 		resp.ErrorMsg = ok.Error()
 		return
 	}
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/update?%s", queryParams.Encode()), tag)
 	if err != nil {
 		resp.ErrCode = 500
@@ -58,7 +58,7 @@ func (app workChat) TagUpdate(tag Tag) (resp internal.BizResponse) {
 
 // TagDelete 删除标签
 func (app workChat) TagDelete(id int) (resp internal.BizResponse) {
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("tagid", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/delete?%s", queryParams.Encode()))
 	if err != nil {
@@ -77,7 +77,7 @@ type TagListResponse struct {
 
 // TagList 获取标签列表
 func (app workChat) TagList() (resp TagListResponse) {
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/list?%s", queryParams.Encode()))
 	if err != nil {
 		resp.ErrCode = 500
@@ -100,7 +100,7 @@ type TagUserListResponse struct {
 
 // TagUserList 获取标签成员
 func (app workChat) TagUserList(id int) (resp TagUserListResponse) {
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("tagid", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/get?%s", queryParams.Encode()))
 	if err != nil {
@@ -121,7 +121,7 @@ type TagAddOrDelUsersResponse struct {
 // TagAddUsers 增加标签成员
 func (app workChat) TagAddUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
 	p := H{"tagid": tagId, "userlist": userIds, "partylist": partyIds}
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/addtagusers?%s", queryParams.Encode()), p)
 	if err != nil {
 		resp.ErrCode = 500
@@ -135,7 +135,7 @@ func (app workChat) TagAddUsers(tagId int, userIds []string, partyIds []int32) (
 // TagDelUsers 删除标签成员
 func (app workChat) TagDelUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
 	p := H{"tagid": tagId, "userlist": userIds, "partylist": partyIds}
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/deltagusers?%s", queryParams.Encode()), p)
 	if err != nil {
 		resp.ErrCode = 500

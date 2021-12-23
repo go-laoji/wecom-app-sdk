@@ -80,7 +80,7 @@ type DepartmentListResponse struct {
 
 // DepartmentList 获取部门列表
 func (app workChat) DepartmentList(id int32) (resp DepartmentListResponse) {
-	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("id", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/list?%s", queryParams.Encode()))
 	if err != nil {
