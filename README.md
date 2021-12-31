@@ -1,5 +1,8 @@
 ![workchatapp](./logo.png)
 
+[![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg "logo")](https://jb.gg/OpenSourceSupport)
+
+
 # workchatapp　golang版企业微信应用sdk
 
 ## 主要功能
