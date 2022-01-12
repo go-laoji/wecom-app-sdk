@@ -62,6 +62,7 @@ type GroupChatResponse struct {
 			Type      int    `json:"type"`
 			JoinTime  int    `json:"join_time"`
 			JoinScene int    `json:"join_scene"`
+			State     string `json:"state,omitempty"`
 			Invitor   struct {
 				Userid string `json:"userid"`
 			} `json:"invitor,omitempty"`
@@ -80,6 +81,11 @@ type GroupChatResponse struct {
 // 需注意的是，如果发生群信息变动，会立即收到群变更事件，但是部分信息是异步处理，可能需要等一段时间调此接口才能得到最新结果
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92122
 func (app workChat) GroupChat(request GroupChatRequest) (resp GroupChatResponse) {
+	if ok := validate.Struct(request); ok != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
+		return
+	}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/get?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -103,6 +109,101 @@ func (app workChat) GroupOpengId2ChatId(openid string) (resp GroupOpengId2ChatId
 	p := H{"openid": openid}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/opengid_to_chatid?%s", queryParams.Encode()), p)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+type GroupChatJoinWayRequest struct {
+	ConfigId       string   `json:"config_id,omitempty"`
+	Scene          int      `json:"scene" validate:"required"`
+	Remark         string   `json:"remark"`
+	AutoCreateRoom int      `json:"auto_create_room"`
+	RoomBaseName   string   `json:"room_base_name"`
+	RoomBaseID     int      `json:"room_base_id"`
+	ChatIDList     []string `json:"chat_id_list" validate:"required,max=5"`
+	State          string   `json:"state"`
+}
+type GroupChatAddJoinWayResponse struct {
+	internal.BizResponse
+	ConfigId string `json:"config_id"`
+}
+
+// GroupChatAddJoinWay 配置客户群进群方式
+func (app workChat) GroupChatAddJoinWay(request GroupChatJoinWayRequest) (resp GroupChatAddJoinWayResponse) {
+	if ok := validate.Struct(request); ok != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
+		return
+	}
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/add_join_way?%s", queryParams.Encode()), request)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+type GetJoinWayResponse struct {
+	internal.BizResponse
+	JoinWay struct {
+		ConfigID       string   `json:"config_id"`
+		Type           int      `json:"type"`
+		Scene          int      `json:"scene"`
+		Remark         string   `json:"remark"`
+		AutoCreateRoom int      `json:"auto_create_room"`
+		RoomBaseName   string   `json:"room_base_name"`
+		RoomBaseID     int      `json:"room_base_id"`
+		ChatIDList     []string `json:"chat_id_list"`
+		QrCode         string   `json:"qr_code"`
+		State          string   `json:"state"`
+	} `json:"join_way"`
+}
+
+// GroupChatGetJoinWay 获取客户群进群方式配置
+func (app workChat) GroupChatGetJoinWay(configId string) (resp GetJoinWayResponse) {
+	p := H{"config_id": configId}
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/get_join_way?%s", queryParams.Encode()), p)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+// GroupChatUpdateJoinWay 更新客户群进群方式配置
+func (app workChat) GroupChatUpdateJoinWay(request GroupChatJoinWayRequest) (resp internal.BizResponse) {
+	if ok := validate.Struct(request); ok != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = ok.Error()
+		return
+	}
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/update_join_way?%s", queryParams.Encode()), request)
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+// GroupChatDeleteJoinWay 删除客户群进群方式配置
+func (app workChat) GroupChatDeleteJoinWay(configId string) (resp internal.BizResponse) {
+	p := H{"config_id": configId}
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/del_join_way?%s", queryParams.Encode()), p)
 	if err != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = err.Error()

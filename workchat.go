@@ -95,6 +95,10 @@ type IWorkChat interface {
 	GroupChatList(GroupChatListFilter) GroupChatListResponse
 	GroupChat(GroupChatRequest) GroupChatResponse
 	GroupOpengId2ChatId(string) GroupOpengId2ChatIdResponse
+	GroupChatAddJoinWay(request GroupChatJoinWayRequest) (resp GroupChatAddJoinWayResponse)
+	GroupChatGetJoinWay(configId string) (resp GetJoinWayResponse)
+	GroupChatUpdateJoinWay(request GroupChatJoinWayRequest) (resp internal.BizResponse)
+	GroupChatDeleteJoinWay(configId string) (resp internal.BizResponse)
 
 	//客户朋友圈 ↓
 	// TODO: 测试未完成，接口不完整
