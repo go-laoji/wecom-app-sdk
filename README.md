@@ -1,5 +1,8 @@
 ![workchatapp](./logo.png)
 
+[![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg "logo")](https://jb.gg/OpenSourceSupport)
+
+
 # workchatapp　golang版企业微信应用sdk
 
 ## 主要功能
@@ -113,6 +116,11 @@
       - [x] 更新企业已配置的「联系我」方式
       - [x] 删除企业已配置的「联系我」方式
       - [x] 结束临时会话
+    - 客户群「加入群聊」管理
+      - [x] 配置客户群进群方式
+      - [x] 获取客户群进群方式配置
+      - [x] 更新客户群进群方式配置
+      - [x] 删除客户群进群方式配置 
     - 客户管理
       - [x] 获取客户列表
       - [x] 获取客户详情

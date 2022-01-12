@@ -33,6 +33,8 @@ type IWorkChat interface {
 	DepartmentUpdate(Department) internal.BizResponse
 	DepartmentDelete(int32) internal.BizResponse
 	DepartmentList(int32) DepartmentListResponse
+	DepartmentSimpleList(id int32) (resp DepartmentSimpleListResponse)
+	DepartmentGet(id int32) (resp DepartmentGetResponse)
 
 	//通讯录管理－标签管理 ↓
 
@@ -93,6 +95,10 @@ type IWorkChat interface {
 	GroupChatList(GroupChatListFilter) GroupChatListResponse
 	GroupChat(GroupChatRequest) GroupChatResponse
 	GroupOpengId2ChatId(string) GroupOpengId2ChatIdResponse
+	GroupChatAddJoinWay(request GroupChatJoinWayRequest) (resp GroupChatAddJoinWayResponse)
+	GroupChatGetJoinWay(configId string) (resp GetJoinWayResponse)
+	GroupChatUpdateJoinWay(request GroupChatJoinWayRequest) (resp internal.BizResponse)
+	GroupChatDeleteJoinWay(configId string) (resp internal.BizResponse)
 
 	//客户朋友圈 ↓
 	// TODO: 测试未完成，接口不完整
