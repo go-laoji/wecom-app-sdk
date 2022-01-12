@@ -92,3 +92,53 @@ func (app workChat) DepartmentList(id int32) (resp DepartmentListResponse) {
 	return
 
 }
+
+type DepartmentSimpleListResponse struct {
+	internal.BizResponse
+	DepartmentId []struct {
+		Id       int32 `json:"id"`
+		ParentId int32 `json:"parentid"`
+		Order    int   `json:"order"`
+	}
+}
+
+// DepartmentSimpleList 获取子部门ID列表
+func (app workChat) DepartmentSimpleList(id int32) (resp DepartmentSimpleListResponse) {
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	if id > 0 {
+		queryParams.Add("id", fmt.Sprintf("%v", id))
+	}
+	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/simplelist?%s", queryParams.Encode()))
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}
+
+type DepartmentGetResponse struct {
+	internal.BizResponse
+	Department Department `json:"department"`
+}
+
+// DepartmentGet 获取单个部门详情
+func (app workChat) DepartmentGet(id int32) (resp DepartmentGetResponse) {
+	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
+	if id > 0 {
+		queryParams.Add("id", fmt.Sprintf("%v", id))
+	} else {
+		resp.ErrCode = 500
+		resp.ErrorMsg = "部门ID异常"
+		return
+	}
+	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/get?%s", queryParams.Encode()))
+	if err != nil {
+		resp.ErrCode = 500
+		resp.ErrorMsg = err.Error()
+	} else {
+		json.Unmarshal(body, &resp)
+	}
+	return
+}

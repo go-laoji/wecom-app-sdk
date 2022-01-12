@@ -33,6 +33,8 @@ type IWorkChat interface {
 	DepartmentUpdate(Department) internal.BizResponse
 	DepartmentDelete(int32) internal.BizResponse
 	DepartmentList(int32) DepartmentListResponse
+	DepartmentSimpleList(id int32) (resp DepartmentSimpleListResponse)
+	DepartmentGet(id int32) (resp DepartmentGetResponse)
 
 	//通讯录管理－标签管理 ↓
 
