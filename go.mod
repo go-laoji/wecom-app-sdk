@@ -1,4 +1,4 @@
-module github.com/go-laoji/workchatapp
+module github.com/go-laoji/wecom-app-sdk
 
 go 1.17
 

@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type ExternalMsg struct {
@@ -55,7 +55,7 @@ type AddMsgTemplateResponse struct {
 
 // AddMsgTemplate 创建企业群发
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92135
-func (app workChat) AddMsgTemplate(msg ExternalMsg) (resp AddMsgTemplateResponse) {
+func (app weCom) AddMsgTemplate(msg ExternalMsg) (resp AddMsgTemplateResponse) {
 	if ok := validate.Struct(msg); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -97,7 +97,7 @@ type GroupMsgList struct {
 
 // GetGroupMsgListV2 获取群发记录列表
 //　参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/93338#%E8%8E%B7%E5%8F%96%E7%BE%A4%E5%8F%91%E8%AE%B0%E5%BD%95%E5%88%97%E8%A1%A8
-func (app workChat) GetGroupMsgListV2(filter GroupMsgListFilter) (resp GetGroupMsgListV2Response) {
+func (app weCom) GetGroupMsgListV2(filter GroupMsgListFilter) (resp GetGroupMsgListV2Response) {
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -132,7 +132,7 @@ type GetGroupMsgTaskResponse struct {
 
 // GetGroupMsgTask 获取群发成员发送任务列表
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/93338#%E8%8E%B7%E5%8F%96%E7%BE%A4%E5%8F%91%E6%88%90%E5%91%98%E5%8F%91%E9%80%81%E4%BB%BB%E5%8A%A1%E5%88%97%E8%A1%A8
-func (app workChat) GetGroupMsgTask(filter GroupMsgTaskFilter) (resp GetGroupMsgTaskResponse) {
+func (app weCom) GetGroupMsgTask(filter GroupMsgTaskFilter) (resp GetGroupMsgTaskResponse) {
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -169,7 +169,7 @@ type GetGroupMsgSendResultResponse struct {
 
 // GetGroupMsgSendResult 获取企业群发成员执行结果
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/93338#%E8%8E%B7%E5%8F%96%E4%BC%81%E4%B8%9A%E7%BE%A4%E5%8F%91%E6%88%90%E5%91%98%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C
-func (app workChat) GetGroupMsgSendResult(filter GroupMsgSendResultFilter) (resp GetGroupMsgSendResultResponse) {
+func (app weCom) GetGroupMsgSendResult(filter GroupMsgSendResultFilter) (resp GetGroupMsgSendResultResponse) {
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()

@@ -1,4 +1,4 @@
-package workchatapp
+package wecom
 
 //
 // 企业微信部门管理接口
@@ -6,7 +6,7 @@ package workchatapp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type Department struct {
@@ -24,7 +24,7 @@ type DepartmentCreateResponse struct {
 }
 
 // DepartmentCreate 创建部门
-func (app workChat) DepartmentCreate(department Department) (resp DepartmentCreateResponse) {
+func (app weCom) DepartmentCreate(department Department) (resp DepartmentCreateResponse) {
 	if ok := validate.Struct(department); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -42,7 +42,7 @@ func (app workChat) DepartmentCreate(department Department) (resp DepartmentCrea
 }
 
 // DepartmentUpdate 更新部门
-func (app workChat) DepartmentUpdate(department Department) (resp internal.BizResponse) {
+func (app weCom) DepartmentUpdate(department Department) (resp internal.BizResponse) {
 	if ok := validate.Struct(department); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -60,7 +60,7 @@ func (app workChat) DepartmentUpdate(department Department) (resp internal.BizRe
 }
 
 // DepartmentDelete 删除部门
-func (app workChat) DepartmentDelete(id int32) (resp internal.BizResponse) {
+func (app weCom) DepartmentDelete(id int32) (resp internal.BizResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	queryParams.Add("id", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/delete?%s", queryParams.Encode()))
@@ -79,7 +79,7 @@ type DepartmentListResponse struct {
 }
 
 // DepartmentList 获取部门列表
-func (app workChat) DepartmentList(id int32) (resp DepartmentListResponse) {
+func (app weCom) DepartmentList(id int32) (resp DepartmentListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("id", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/department/list?%s", queryParams.Encode()))
@@ -103,7 +103,7 @@ type DepartmentSimpleListResponse struct {
 }
 
 // DepartmentSimpleList 获取子部门ID列表
-func (app workChat) DepartmentSimpleList(id int32) (resp DepartmentSimpleListResponse) {
+func (app weCom) DepartmentSimpleList(id int32) (resp DepartmentSimpleListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	if id > 0 {
 		queryParams.Add("id", fmt.Sprintf("%v", id))
@@ -124,7 +124,7 @@ type DepartmentGetResponse struct {
 }
 
 // DepartmentGet 获取单个部门详情
-func (app workChat) DepartmentGet(id int32) (resp DepartmentGetResponse) {
+func (app weCom) DepartmentGet(id int32) (resp DepartmentGetResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	if id > 0 {
 		queryParams.Add("id", fmt.Sprintf("%v", id))

@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type TemplateCardType string
@@ -178,7 +178,7 @@ type MessageUpdateTemplateCardResponse struct {
 
 // MessageUpdateTemplateCard 更新模板卡片消息
 // https://open.work.weixin.qq.com/api/doc/90000/90135/94888
-func (app workChat) MessageUpdateTemplateCard(msg TemplateCardUpdateMessage) (resp MessageUpdateTemplateCardResponse) {
+func (app weCom) MessageUpdateTemplateCard(msg TemplateCardUpdateMessage) (resp MessageUpdateTemplateCardResponse) {
 	if ok := validate.Struct(msg); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()

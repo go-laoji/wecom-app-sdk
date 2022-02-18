@@ -1,16 +1,16 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
 	badger "github.com/dgraph-io/badger/v2"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 	"net/url"
 	"os"
 	"time"
 )
 
-type IWorkChat interface {
+type IWeCom interface {
 	getContactsAccessToken() string
 	getAppAccessToken() string
 	GetCorpId() string
@@ -139,8 +139,8 @@ type WorkChatConfig struct {
 	AppSecret     string
 }
 
-type workChat struct {
-	IWorkChat
+type weCom struct {
+	IWeCom
 	corpId        string
 	contactSecret string
 	appId         string
@@ -148,8 +148,8 @@ type workChat struct {
 	cache         *badger.DB
 }
 
-func NewWorkChatApp(c WorkChatConfig) IWorkChat {
-	app := new(workChat)
+func NewWeComApp(c WorkChatConfig) IWeCom {
+	app := new(weCom)
 	app.corpId = c.CorpId
 	app.contactSecret = c.ContactSecret
 	app.appId = c.AppId
@@ -158,7 +158,7 @@ func NewWorkChatApp(c WorkChatConfig) IWorkChat {
 	return app
 }
 
-func (app workChat) GetCorpId() string {
+func (app weCom) GetCorpId() string {
 	return app.corpId
 }
 
@@ -168,7 +168,7 @@ type accessTokenResponse struct {
 	ExpiresIn   int    `json:"expires_in"`
 }
 
-func (app workChat) requestAccessToken(secret string) (resp accessTokenResponse) {
+func (app weCom) requestAccessToken(secret string) (resp accessTokenResponse) {
 	apiUrl := fmt.Sprintf("/cgi-bin/gettoken?corpid=%s&corpsecret=%s", app.corpId, secret)
 	var data []byte
 	var err error
@@ -185,7 +185,7 @@ func (app workChat) requestAccessToken(secret string) (resp accessTokenResponse)
 	return resp
 }
 
-func (app *workChat) getContactsAccessToken() (token string) {
+func (app *weCom) getContactsAccessToken() (token string) {
 	mutex.Lock()
 	defer mutex.Unlock()
 	var err error
@@ -217,7 +217,7 @@ func (app *workChat) getContactsAccessToken() (token string) {
 	return token
 }
 
-func (app *workChat) getAppAccessToken() (token string) {
+func (app *weCom) getAppAccessToken() (token string) {
 	mutex.Lock()
 	defer mutex.Unlock()
 	var err error
@@ -249,7 +249,7 @@ func (app *workChat) getAppAccessToken() (token string) {
 	return token
 }
 
-func (app workChat) buildBasicTokenQuery(token string) url.Values {
+func (app weCom) buildBasicTokenQuery(token string) url.Values {
 	queryParams := url.Values{}
 	queryParams.Add("access_token", token)
 	if os.Getenv("debug") != "" {

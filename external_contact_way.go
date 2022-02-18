@@ -1,11 +1,11 @@
-package workchatapp
+package wecom
 
 //　参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92572
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type ConclusionsText struct {
@@ -60,7 +60,7 @@ type ContactMeAddResponse struct {
 }
 
 // ExternalAddContactWay 配置客户联系「联系我」方式
-func (app workChat) ExternalAddContactWay(me ContactMe) (resp ContactMeAddResponse) {
+func (app weCom) ExternalAddContactWay(me ContactMe) (resp ContactMeAddResponse) {
 	if ok := validate.Struct(me); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -78,7 +78,7 @@ func (app workChat) ExternalAddContactWay(me ContactMe) (resp ContactMeAddRespon
 }
 
 // ExternalUpdateContactWay 更新企业已配置的「联系我」方式
-func (app workChat) ExternalUpdateContactWay(me ContactMe) (resp internal.BizResponse) {
+func (app weCom) ExternalUpdateContactWay(me ContactMe) (resp internal.BizResponse) {
 	if ok := validate.Struct(me); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -104,7 +104,7 @@ type ContactMeGetResponse struct {
 }
 
 // ExternalGetContactWay 获取企业已配置的「联系我」方式
-func (app workChat) ExternalGetContactWay(configId string) (resp ContactMeGetResponse) {
+func (app weCom) ExternalGetContactWay(configId string) (resp ContactMeGetResponse) {
 	p := H{"config_id": configId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/get_contact_way?%s", queryParams.Encode()), p)
@@ -127,7 +127,7 @@ type ContactMeListResponse struct {
 
 // ExternalListContactWay 获取企业配置的「联系我」二维码和「联系我」小程序插件列表。不包含临时会话。
 // 注意，该接口仅可获取2021年7月10日以后创建的「联系我」
-func (app workChat) ExternalListContactWay(startTime, endTime int64, cursor string, limit int) (resp ContactMeListResponse) {
+func (app weCom) ExternalListContactWay(startTime, endTime int64, cursor string, limit int) (resp ContactMeListResponse) {
 	p := H{"start_time": startTime, "end_time": endTime, "cursor": cursor, "limit": limit}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/list_contact_way?%s", queryParams.Encode()), p)
@@ -141,7 +141,7 @@ func (app workChat) ExternalListContactWay(startTime, endTime int64, cursor stri
 }
 
 // ExternalDeleteContactWay 删除企业已配置的「联系我」方式
-func (app workChat) ExternalDeleteContactWay(configId string) (resp internal.BizResponse) {
+func (app weCom) ExternalDeleteContactWay(configId string) (resp internal.BizResponse) {
 	p := H{"config_id": configId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/del_contact_way?%s", queryParams.Encode()), p)
@@ -155,7 +155,7 @@ func (app workChat) ExternalDeleteContactWay(configId string) (resp internal.Biz
 }
 
 // ExternalCloseTempChat 结束临时会话
-func (app workChat) ExternalCloseTempChat(userId, externalUserId string) (resp internal.BizResponse) {
+func (app weCom) ExternalCloseTempChat(userId, externalUserId string) (resp internal.BizResponse) {
 	p := H{"userid": userId, "external_userid": externalUserId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/del_contact_way?%s", queryParams.Encode()), p)

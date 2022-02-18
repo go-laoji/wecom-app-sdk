@@ -1,9 +1,9 @@
-![workchatapp](./logo.png)
+![wecom-app-sdk](./logo.png)
 
 [![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg "logo")](https://jb.gg/OpenSourceSupport)
 
 
-# workchatapp　golang版企业微信应用sdk
+# wecom-app-sdk　golang版企业微信自建应用sdk
 
 ## 主要功能
 
@@ -22,7 +22,7 @@
 
 ## 安装使用
 
-    go get github.com/go-laoji/workchatapp
+    go get github.com/go-laoji/wecom-app-sdk
 
 ## 使用样例
 
@@ -31,7 +31,7 @@
     package main
 
     import (
-        "github.com/go-laoji/workchatapp"
+        "github.com/go-laoji/wecom-app-sdk"
         "log"
     )
     
@@ -41,13 +41,13 @@
                 log.Println("recover", e)
             }
         }()
-        var testConfig = workchatapp.WorkChatConfig{
+        var testConfig = wecom.WorkChatConfig{
             CorpId:        "ww190690c489d2eb53",
             ContactSecret: "08tnu5LGrsbKwvEDfTGlBMFMw3CsUCwRMavxvkLZSH8",
             AppId:         "1000002",
             AppSecret:     "pedn4nqraARPFOG_A-aVFz1F9pp1sdR-3K1fsCpTwg0",
         }
-        weworkApp := workchatapp.NewWorkChatApp(testConfig)
+        weworkApp := wecom.NewWeComApp(testConfig)
         resp := weworkApp.CorpTagList([]string{}, []string{})
         log.Println(resp)
     }
