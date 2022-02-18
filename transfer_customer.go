@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type TransferCustomerRequest struct {
@@ -24,7 +24,7 @@ type TransferCustomerResponse struct {
 // TransferCustomer 分配在职成员的客户
 // 企业可通过此接口，转接在职成员的客户给其他成员。
 // 参考连接 https://open.work.weixin.qq.com/api/doc/90000/90135/92125
-func (app workChat) TransferCustomer(request TransferCustomerRequest) (resp TransferCustomerResponse) {
+func (app weCom) TransferCustomer(request TransferCustomerRequest) (resp TransferCustomerResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/transfer_customer?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -55,7 +55,7 @@ type TransferResultResponse struct {
 // TransferResult 查询客户接替状态
 // 企业和第三方可通过此接口查询在职成员的客户转接情况。
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/94088
-func (app workChat) TransferResult(request TransferResultRequest) (resp TransferResultResponse) {
+func (app weCom) TransferResult(request TransferResultRequest) (resp TransferResultResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/transfer_result?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -88,7 +88,7 @@ type UnAssignedResponse struct {
 
 // GetUnassignedList 获取待分配的离职成员列表
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92124
-func (app workChat) GetUnassignedList(request UnAssignedRequest) (resp UnAssignedResponse) {
+func (app weCom) GetUnassignedList(request UnAssignedRequest) (resp UnAssignedResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/get_unassigned_list?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -104,7 +104,7 @@ func (app workChat) GetUnassignedList(request UnAssignedRequest) (resp UnAssigne
 // handover_userid必须是已离职用户
 // external_userid必须是handover_userid的客户
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/94081
-func (app workChat) TransferCustomerResigned(request TransferCustomerRequest) (resp TransferCustomerResponse) {
+func (app weCom) TransferCustomerResigned(request TransferCustomerRequest) (resp TransferCustomerResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/resigned/transfer_customer?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -118,7 +118,7 @@ func (app workChat) TransferCustomerResigned(request TransferCustomerRequest) (r
 
 // TransferResultResigned 查询客户接替状态
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/94082
-func (app workChat) TransferResultResigned(request TransferResultRequest) (resp TransferResultResponse) {
+func (app weCom) TransferResultResigned(request TransferResultRequest) (resp TransferResultResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/transfer_result?%s", queryParams.Encode()), request)
 	if err != nil {
@@ -152,7 +152,7 @@ type GroupChatTransferResponse struct {
 // 继承给的新群主，必须有激活企业微信
 // 同一个人的群，限制每天最多分配300个给新群主
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92127
-func (app workChat) TransferGroupChat(request GroupChatTransferRequest) (resp GroupChatTransferResponse) {
+func (app weCom) TransferGroupChat(request GroupChatTransferRequest) (resp GroupChatTransferResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/groupchat/transfer?%s", queryParams.Encode()), request)
 	if err != nil {

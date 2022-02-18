@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type MomentTask struct {
@@ -56,7 +56,7 @@ type AddMomentTaskResponse struct {
 
 // AddMomentTask 创建发表任务
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/95094#%E5%88%9B%E5%BB%BA%E5%8F%91%E8%A1%A8%E4%BB%BB%E5%8A%A1
-func (app workChat) AddMomentTask(task MomentTask) (resp AddMomentTaskResponse) {
+func (app weCom) AddMomentTask(task MomentTask) (resp AddMomentTaskResponse) {
 	if ok := validate.Struct(task); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -91,7 +91,7 @@ type GetMomentTaskResultResponse struct {
 }
 
 // GetMomentTaskResult 获取任务创建结果
-func (app workChat) GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse) {
+func (app weCom) GetMomentTaskResult(jobId string) (resp GetMomentTaskResultResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("jobid", jobId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/externalcontact/get_moment_task_result?%s", queryParams.Encode()))
@@ -137,7 +137,7 @@ type MomentList struct {
 	Location    Location `json:"location"`
 }
 
-func (app workChat) GetMomentList(filter MomentListFilter) (resp GetMomentListResponse) {
+func (app weCom) GetMomentList(filter MomentListFilter) (resp GetMomentListResponse) {
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -169,7 +169,7 @@ type GetMomentTaskResponse struct {
 	} `json:"task_list"`
 }
 
-func (app workChat) GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse) {
+func (app weCom) GetMomentTask(filter MomentTaskFilter) (resp GetMomentTaskResponse) {
 	if ok := validate.Struct(filter); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()

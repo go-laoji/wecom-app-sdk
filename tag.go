@@ -1,4 +1,4 @@
-package workchatapp
+package wecom
 
 //
 // 企业微信标签管理接口
@@ -7,7 +7,7 @@ package workchatapp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type Tag struct {
@@ -21,7 +21,7 @@ type TagCreateResponse struct {
 }
 
 // TagCreate 创建标签
-func (app workChat) TagCreate(tag Tag) (resp TagCreateResponse) {
+func (app weCom) TagCreate(tag Tag) (resp TagCreateResponse) {
 	if ok := validate.Struct(tag); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -39,7 +39,7 @@ func (app workChat) TagCreate(tag Tag) (resp TagCreateResponse) {
 }
 
 // TagUpdate 更新标签名字
-func (app workChat) TagUpdate(tag Tag) (resp internal.BizResponse) {
+func (app weCom) TagUpdate(tag Tag) (resp internal.BizResponse) {
 	if ok := validate.Struct(tag); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -57,7 +57,7 @@ func (app workChat) TagUpdate(tag Tag) (resp internal.BizResponse) {
 }
 
 // TagDelete 删除标签
-func (app workChat) TagDelete(id int) (resp internal.BizResponse) {
+func (app weCom) TagDelete(id int) (resp internal.BizResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("tagid", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/delete?%s", queryParams.Encode()))
@@ -76,7 +76,7 @@ type TagListResponse struct {
 }
 
 // TagList 获取标签列表
-func (app workChat) TagList() (resp TagListResponse) {
+func (app weCom) TagList() (resp TagListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/list?%s", queryParams.Encode()))
 	if err != nil {
@@ -99,7 +99,7 @@ type TagUserListResponse struct {
 }
 
 // TagUserList 获取标签成员
-func (app workChat) TagUserList(id int) (resp TagUserListResponse) {
+func (app weCom) TagUserList(id int) (resp TagUserListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("tagid", fmt.Sprintf("%v", id))
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/tag/get?%s", queryParams.Encode()))
@@ -119,7 +119,7 @@ type TagAddOrDelUsersResponse struct {
 }
 
 // TagAddUsers 增加标签成员
-func (app workChat) TagAddUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
+func (app weCom) TagAddUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
 	p := H{"tagid": tagId, "userlist": userIds, "partylist": partyIds}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/addtagusers?%s", queryParams.Encode()), p)
@@ -133,7 +133,7 @@ func (app workChat) TagAddUsers(tagId int, userIds []string, partyIds []int32) (
 }
 
 // TagDelUsers 删除标签成员
-func (app workChat) TagDelUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
+func (app weCom) TagDelUsers(tagId int, userIds []string, partyIds []int32) (resp TagAddOrDelUsersResponse) {
 	p := H{"tagid": tagId, "userlist": userIds, "partylist": partyIds}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/tag/deltagusers?%s", queryParams.Encode()), p)

@@ -1,4 +1,4 @@
-package workchatapp
+package wecom
 
 //
 // 企业微信成员管理接口
@@ -11,7 +11,7 @@ package workchatapp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 // User 成员定义
@@ -77,7 +77,7 @@ type ExternalAttr struct {
 }
 
 // UserCreate 创建成员
-func (app workChat) UserCreate(user User) (resp internal.BizResponse) {
+func (app weCom) UserCreate(user User) (resp internal.BizResponse) {
 	if ok := validate.Struct(user); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -100,7 +100,7 @@ type UserGetResponse struct {
 }
 
 // UserGet 读取成员
-func (app workChat) UserGet(userId string) (resp UserGetResponse) {
+func (app weCom) UserGet(userId string) (resp UserGetResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("userid", userId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/get?%s", queryParams.Encode()))
@@ -114,7 +114,7 @@ func (app workChat) UserGet(userId string) (resp UserGetResponse) {
 }
 
 // UserUpdate 更新成员
-func (app workChat) UserUpdate(user User) (resp internal.BizResponse) {
+func (app weCom) UserUpdate(user User) (resp internal.BizResponse) {
 	if ok := validate.Struct(user); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -132,7 +132,7 @@ func (app workChat) UserUpdate(user User) (resp internal.BizResponse) {
 }
 
 // UserDelete 删除成员
-func (app workChat) UserDelete(userId string) (resp internal.BizResponse) {
+func (app weCom) UserDelete(userId string) (resp internal.BizResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	queryParams.Add("userid", userId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/delete?%s", queryParams.Encode()))
@@ -146,7 +146,7 @@ func (app workChat) UserDelete(userId string) (resp internal.BizResponse) {
 }
 
 // UserBatchDelete 批量删除成员
-func (app workChat) UserBatchDelete(ids []string) (resp internal.BizResponse) {
+func (app weCom) UserBatchDelete(ids []string) (resp internal.BizResponse) {
 	p := H{"useridlist": ids}
 	queryParams := app.buildBasicTokenQuery(app.getContactsAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/batchdelete?%s",
@@ -170,7 +170,7 @@ type UserSimpleListResponse struct {
 }
 
 // UserSimpleList 获取部门成员
-func (app workChat) UserSimpleList(departId int32, fetchChild int) (resp UserSimpleListResponse) {
+func (app weCom) UserSimpleList(departId int32, fetchChild int) (resp UserSimpleListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	if departId <= 0 {
 		return UserSimpleListResponse{internal.Error{ErrorMsg: "部门ID必需大于0", ErrCode: 403}, nil}
@@ -198,7 +198,7 @@ type UserListResponse struct {
 }
 
 // UserList 获取部门成员详情
-func (app workChat) UserList(departId int32, fetchChild int) (resp UserListResponse) {
+func (app weCom) UserList(departId int32, fetchChild int) (resp UserListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	if departId <= 0 {
 		resp.ErrCode = 403
@@ -224,7 +224,7 @@ type UserId2OpenIdResponse struct {
 }
 
 // UserId2OpenId userid与openid互换
-func (app workChat) UserId2OpenId(userId string) (resp UserId2OpenIdResponse) {
+func (app weCom) UserId2OpenId(userId string) (resp UserId2OpenIdResponse) {
 	p := H{"userid": userId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/user/convert_to_openid?%s",
@@ -246,7 +246,7 @@ type UserInfoResponse struct {
 	ExternalUserId string `json:"external_userid"`
 }
 
-func (app workChat) GetUserInfo(code string) (resp UserInfoResponse) {
+func (app weCom) GetUserInfo(code string) (resp UserInfoResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("code", code)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/user/getuserinfo?%s", queryParams.Encode()))

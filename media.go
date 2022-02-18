@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 	"os"
 )
 
@@ -32,7 +32,7 @@ type MediaUploadResponse struct {
 
 // MediaUploadAttachment 上传附件资源
 // 不同的附件类型用于不同的场景。1：朋友圈；2:商品图册
-func (app workChat) MediaUploadAttachment(attrs Media) (resp MediaUploadResponse) {
+func (app weCom) MediaUploadAttachment(attrs Media) (resp MediaUploadResponse) {
 	if ok := validate.Struct(attrs); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -71,7 +71,7 @@ func isExists(path string) bool {
 
 // MediaUpload 上传临时素材
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90253
-func (app workChat) MediaUpload(fileType MediaType, filePath string, fileName string) (resp MediaUploadResponse) {
+func (app weCom) MediaUpload(fileType MediaType, filePath string, fileName string) (resp MediaUploadResponse) {
 	if !isExists(filePath) {
 		resp.ErrCode = 500
 		resp.ErrorMsg = "文件路径不存在"
@@ -99,7 +99,7 @@ type MediaUploadImgResponse struct {
 
 // MediaUploadImg 上传图片
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90256
-func (app workChat) MediaUploadImg(filePath string, fileName string) (resp MediaUploadImgResponse) {
+func (app weCom) MediaUploadImg(filePath string, fileName string) (resp MediaUploadImgResponse) {
 	if !isExists(filePath) {
 		resp.ErrCode = 500
 		resp.ErrorMsg = "文件路径不存在"

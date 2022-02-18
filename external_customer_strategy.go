@@ -1,4 +1,4 @@
-package workchatapp
+package wecom
 
 //
 // 客户联系规则组管理
@@ -7,7 +7,7 @@ package workchatapp
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type ExternalContactCustomerStrategyListResponse struct {
@@ -20,7 +20,7 @@ type ExternalContactCustomerStrategyListResponse struct {
 
 // ExternalContactCustomerStrategyList 获取规则组列表
 // 企业可通过此接口获取企业配置的所有客户规则组id列表
-func (app workChat) ExternalContactCustomerStrategyList(cursor string, limit int) (resp ExternalContactCustomerStrategyListResponse) {
+func (app weCom) ExternalContactCustomerStrategyList(cursor string, limit int) (resp ExternalContactCustomerStrategyListResponse) {
 	p := H{"cursor": cursor, "limit": limit}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/customer_strategy/list?%s", queryParams.Encode()), p)
@@ -77,7 +77,7 @@ type ExternalContactCustomerStrategyGetResponse struct {
 
 // ExternalContactCustomerStrategyGet 获取规则组详情
 // 企业可以通过此接口获取某个客户规则组的详细信息。
-func (app workChat) ExternalContactCustomerStrategyGet(strategyId int) (resp ExternalContactCustomerStrategyGetResponse) {
+func (app weCom) ExternalContactCustomerStrategyGet(strategyId int) (resp ExternalContactCustomerStrategyGetResponse) {
 	p := H{"strategy_id": strategyId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/customer_strategy/get?%s", queryParams.Encode()), p)
@@ -101,7 +101,7 @@ type ExternalContactCustomerStrategyGetRangeResponse struct {
 }
 
 // ExternalContactCustomerStrategyGetRange 获取规则组管理范围
-func (app workChat) ExternalContactCustomerStrategyGetRange(strategyId int, cursor string, limit int) (resp ExternalContactCustomerStrategyGetRangeResponse) {
+func (app weCom) ExternalContactCustomerStrategyGetRange(strategyId int, cursor string, limit int) (resp ExternalContactCustomerStrategyGetRangeResponse) {
 	p := H{"strategy_id": strategyId, "cursor": cursor, "limit": limit}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/customer_strategy/get_range?%s", queryParams.Encode()), p)
@@ -126,7 +126,7 @@ type ExternalContactCustomerStrategyCreateResponse struct {
 
 // ExternalContactCustomerStrategyCreate 创建新的规则组
 // 企业可通过此接口创建一个新的客户规则组。该接口仅支持串行调用，请勿并发创建规则组。
-func (app workChat) ExternalContactCustomerStrategyCreate(request ExternalContactCustomerStrategyCreateRequest) (resp ExternalContactCustomerStrategyCreateResponse) {
+func (app weCom) ExternalContactCustomerStrategyCreate(request ExternalContactCustomerStrategyCreateRequest) (resp ExternalContactCustomerStrategyCreateResponse) {
 	if ok := validate.Struct(request); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -150,7 +150,7 @@ type ExternalContactCustomerStrategyEditRequest struct {
 }
 
 // ExternalContactCustomerStrategyEdit 编辑规则组及其管理范围
-func (app workChat) ExternalContactCustomerStrategyEdit(request ExternalContactCustomerStrategyEditRequest) (resp internal.BizResponse) {
+func (app weCom) ExternalContactCustomerStrategyEdit(request ExternalContactCustomerStrategyEditRequest) (resp internal.BizResponse) {
 	if ok := validate.Struct(request); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -168,7 +168,7 @@ func (app workChat) ExternalContactCustomerStrategyEdit(request ExternalContactC
 }
 
 // ExternalContactCustomerStrategyDelete 删除规则组
-func (app workChat) ExternalContactCustomerStrategyDelete(strategyId int) (resp internal.BizResponse) {
+func (app weCom) ExternalContactCustomerStrategyDelete(strategyId int) (resp internal.BizResponse) {
 	p := H{"strategy_id": strategyId}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/customer_strategy/del?%s", queryParams.Encode()), p)

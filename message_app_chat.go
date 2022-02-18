@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 //企业微信支持企业自建应用通过接口创建群聊并发送消息到群，让重要的消息可更及时推送给群成员，方便协同处理。
@@ -23,7 +23,7 @@ type AppChatCreateResponse struct {
 
 // AppChatCreate 创建群聊会话
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90245
-func (app workChat) AppChatCreate(request AppChatCreateRequest) (resp AppChatCreateResponse) {
+func (app weCom) AppChatCreate(request AppChatCreateRequest) (resp AppChatCreateResponse) {
 	if ok := validate.Struct(request); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -50,7 +50,7 @@ type AppChatUpdateRequest struct {
 
 // AppChatUpdate 修改群聊会话
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90246
-func (app workChat) AppChatUpdate(request AppChatUpdateRequest) (resp internal.BizResponse) {
+func (app weCom) AppChatUpdate(request AppChatUpdateRequest) (resp internal.BizResponse) {
 	if ok := validate.Struct(request); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()
@@ -79,7 +79,7 @@ type AppChatGetResponse struct {
 
 // AppChatGet 获取群聊会话
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90247
-func (app workChat) AppChatGet(chatId string) (resp AppChatGetResponse) {
+func (app weCom) AppChatGet(chatId string) (resp AppChatGetResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("chatid", chatId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/appchat/update?%s", queryParams.Encode()))
@@ -94,7 +94,7 @@ func (app workChat) AppChatGet(chatId string) (resp AppChatGetResponse) {
 
 // AppChatSend 应用推送消息
 // https://open.work.weixin.qq.com/api/doc/90000/90135/90248
-func (app workChat) AppChatSend(msg interface{}, chatId string) (resp internal.BizResponse) {
+func (app weCom) AppChatSend(msg interface{}, chatId string) (resp internal.BizResponse) {
 	if ok := validate.Struct(msg); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()

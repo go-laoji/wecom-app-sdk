@@ -1,4 +1,4 @@
-package workchatapp
+package wecom
 
 import (
 	"testing"
@@ -10,7 +10,7 @@ var testConfig = WorkChatConfig{
 	AppId:         "1000002",
 	AppSecret:     "pedn4nqraARPFOG_A-aVFz1F9pp1sdR-3K1fsCpTwg0",
 }
-var testWorkChat = NewWorkChatApp(testConfig)
+var testWorkChat = NewWeComApp(testConfig)
 
 func TestWorkChat_GetCorpId(t *testing.T) {
 	if testWorkChat.GetCorpId() != testConfig.CorpId {

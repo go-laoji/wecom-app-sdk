@@ -1,11 +1,11 @@
-package workchatapp
+package wecom
 
 // 客户管理
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type ExternalContactGetFollowUserListResponse struct {
@@ -15,7 +15,7 @@ type ExternalContactGetFollowUserListResponse struct {
 
 // ExternalContactGetFollowUserList 获取配置了客户联系功能的成员列表
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92571
-func (app workChat) ExternalContactGetFollowUserList() (resp ExternalContactGetFollowUserListResponse) {
+func (app weCom) ExternalContactGetFollowUserList() (resp ExternalContactGetFollowUserListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/externalcontact/get_follow_user_list?%s", queryParams.Encode()))
 	if err != nil {
@@ -34,7 +34,7 @@ type ExternalContactListResponse struct {
 
 // ExternalContactList 获取客户列表
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92113
-func (app workChat) ExternalContactList(userId string) (resp ExternalContactListResponse) {
+func (app weCom) ExternalContactList(userId string) (resp ExternalContactListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("userid", userId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/externalcontact/list?%s", queryParams.Encode()))
@@ -105,7 +105,7 @@ type ExternalContactGetResponse struct {
 // ExternalContactGet 获取客户详情
 // 参考连接　https://open.work.weixin.qq.com/api/doc/90000/90135/92114
 // 当客户在企业内的跟进人超过500人时需要使用cursor参数进行分页获取
-func (app workChat) ExternalContactGet(externalUserId, cursor string) (resp ExternalContactGetResponse) {
+func (app weCom) ExternalContactGet(externalUserId, cursor string) (resp ExternalContactGetResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("external_userid", externalUserId)
 	queryParams.Add("cursor", cursor)
@@ -131,7 +131,7 @@ type ExternalContactBatchGetByUserResponse struct {
 // ExternalContactBatchGetByUser 批量获取客户详情
 // 企业可通过此接口获取指定成员添加的客户信息列表。
 // 参考连接 https://open.work.weixin.qq.com/api/doc/90000/90135/92994
-func (app workChat) ExternalContactBatchGetByUser(userIds []string, cursor string, limit int) (resp ExternalContactBatchGetByUserResponse) {
+func (app weCom) ExternalContactBatchGetByUser(userIds []string, cursor string, limit int) (resp ExternalContactBatchGetByUserResponse) {
 	p := H{"userid_list": userIds, "cursor": cursor, "limit": limit}
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpPost(fmt.Sprintf("/cgi-bin/externalcontact/batch/get_by_user?%s", queryParams.Encode()), p)
@@ -156,7 +156,7 @@ type ExternalContactRemarkRequest struct {
 
 // ExternalContactRemark 修改客户备注信息
 // 参考连接 https://open.work.weixin.qq.com/api/doc/90000/90135/92115
-func (app workChat) ExternalContactRemark(remark ExternalContactRemarkRequest) (resp internal.BizResponse) {
+func (app weCom) ExternalContactRemark(remark ExternalContactRemarkRequest) (resp internal.BizResponse) {
 	if ok := validate.Struct(remark); ok != nil {
 		resp.ErrCode = 500
 		resp.ErrorMsg = ok.Error()

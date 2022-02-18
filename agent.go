@@ -1,9 +1,9 @@
-package workchatapp
+package wecom
 
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/go-laoji/workchatapp/internal"
+	"github.com/go-laoji/wecom-app-sdk/internal"
 )
 
 type AgentGetResponse struct {
@@ -30,7 +30,7 @@ type AgentGetResponse struct {
 	HomeURL            string `json:"home_url"`
 }
 
-func (app workChat) AgentGet() (resp AgentGetResponse) {
+func (app weCom) AgentGet() (resp AgentGetResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	queryParams.Add("agentid", app.appId)
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/agent/get?%s", queryParams.Encode()))
@@ -52,7 +52,7 @@ type AgentListResponse struct {
 	}
 }
 
-func (app workChat) AgentList() (resp AgentListResponse) {
+func (app weCom) AgentList() (resp AgentListResponse) {
 	queryParams := app.buildBasicTokenQuery(app.getAppAccessToken())
 	body, err := internal.HttpGet(fmt.Sprintf("/cgi-bin/agent/list?%s", queryParams.Encode()))
 	if err != nil {
